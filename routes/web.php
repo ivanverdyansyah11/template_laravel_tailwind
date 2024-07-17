@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use \App\Http\Controllers\StudentController;
+use \App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::fallback(function () {
+    return redirect()->back();
+});
+
+Route::redirect('/', '/dashboard');
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/dashboard/auth/login', [UserController::class, 'login'])->name('auth.login');
+    Route::get('/dashboard/auth/register', [UserController::class, 'register'])->name('auth.register');
+});
+
+Route::middleware(['guest'])->group(function () {
+    Route::resource('/profile', ProfileController::class);
+    Route::resource('/dashboard', DashboardController::class);
+    Route::resource('/student', StudentController::class);
 });
