@@ -1,0 +1,94 @@
+@extends('template.main')
+
+@section('content-dashboard')
+    <div class="container mt-4 px-[1.5rem]">
+        @if(session()->has('failed'))
+            <div class="alert alert-danger w-full mb-3">
+                {{ session('failed') }}
+            </div>
+        @endif
+        <form class="form flex flex-col gap-3 w-full" enctype="multipart/form-data">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="input-group md:col-span-2">
+                    <label for="profile_image">
+                        Profile Image
+                        <div class="wrapper flex items-end gap-2 mt-[8px]">
+                            <img src="{{ asset('assets/image/profile/profile-not-found.svg') }}"
+                                 alt="Not Found" width="100" class="img-preview">
+                            <input type="file" class="input-hide input-file" id="profile_image"
+                                   name="profile_image">
+                            <div class="button-file">Choose Image</div>
+                        </div>
+                    </label>
+                    @error('profile_image')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="input @error('name') input-invalid @enderror" name="name" id="name" placeholder="Enter your name.." autocomplete="off" required>
+                    @error('name')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="fullname">Fullname</label>
+                    <input type="text" class="input @error('fullname') input-invalid @enderror" name="fullname" id="fullname" placeholder="Enter your fullname.." autocomplete="off" required>
+                    @error('fullname')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="input @error('email') input-invalid @enderror" name="email" id="email" placeholder="Enter your email.." autocomplete="off" required>
+                    @error('email')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="input @error('password') input-invalid @enderror" name="password" id="password" placeholder="Enter your password.." autocomplete="off" required>
+                    @error('password')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" class="input @error('phone_number') input-invalid @enderror" name="phone_number" id="phone_number" placeholder="Enter your phone number.." autocomplete="off" required>
+                    @error('phone_number')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label for="nik">NIK</label>
+                    <input type="text" class="input @error('nik') input-invalid @enderror" name="nik" id="nik" placeholder="Enter your nik.." autocomplete="off" required>
+                    @error('nik')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="input-group md:col-span-2">
+                    <label for="address">Address</label>
+                    <textarea class="input @error('address') input-invalid @enderror" name="address" id="address" placeholder="Enter your address.." required rows="4"></textarea>
+                    @error('address')
+                        <p class="text-invalid">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="button-group flex gap-2 md:col-span-2">
+                    <button type="submit" class="button-primary">Add New Student</button>
+                    <a href="{{ route('student.index') }}" class="button-reverse">Cancel Add</a>
+                </div>
+            </div>
+        </form>
+    </div>
+@endsection
+
+@push('child-script')
+    <script>
+        const tagImage = document.querySelector('.img-preview');
+        const inputImage = document.querySelector('.input-file');
+
+        inputImage.addEventListener('change', function() {
+            tagImage.src = URL.createObjectURL(inputImage.files[0]);
+        });
+    </script>
+@endpush
